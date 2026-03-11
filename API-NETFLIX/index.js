@@ -28,11 +28,28 @@ app.use(
     swaggerUI.setup(swaggerDocs, swaggerOptions)
 );
 
-mongoose.connect(MONGO_URL)
-    .then(() => console.log("Berhasil terkoneksi ke MongoDB Atlas!"))
-    .catch(err => {
-        console.log("GAGAL KONEK MONGODB! Alasan detailnya:", err.message);
-    });
+// 1. Fungsi khusus untuk lingkungan Serverless Vercel
+const connectDB = async () => {
+    // Jika mongoose sudah terkoneksi (readyState 1) atau sedang proses koneksi (readyState 2), biarkan saja
+    if (mongoose.connection.readyState >= 1) {
+        return;
+    }
+    // Jika terputus, paksa sambungkan ulang
+    try {
+        await mongoose.connect(MONGO_URL, {
+            serverSelectionTimeoutMS: 5000 // Jangan tunggu kelamaan kalau Atlas sedang down
+        });
+        console.log("MongoDB Terkoneksi (Serverless Wakeup)!");
+    } catch (error) {
+        console.log("Gagal konek MongoDB:", error.message);
+    }
+};
+
+// 2. Middleware: Setiap ada request dari user, periksa nyawa database dulu!
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 app.use(routes)
 
