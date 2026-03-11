@@ -1,11 +1,12 @@
 require("dotenv").config()
 const express = require('express');
 const cors = require("cors")
+const path = require("path");
 const routes = require("./routes/index.route.js")
 const mongoose = require("mongoose")
 const swaggerUI = require("swagger-ui-express")
 const YAML = require("yamljs")
-const swaggerDocs = YAML.load("./swagger.yaml")
+const swaggerDocs = YAML.load(path.join(__dirname, "swagger.yaml"));
 
 const { API_PORT, MONGO_URL } = process.env
 
