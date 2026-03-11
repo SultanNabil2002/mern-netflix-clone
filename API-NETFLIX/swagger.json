@@ -1,0 +1,254 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Netflix Clone API Project",
+    "description": "Netflix API Express JS MongoDB Databases",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Endpoint untuk autentikasi User (Daftar, Masuk, Keluar)"
+    },
+    {
+      "name": "Movies",
+      "description": "Endpoint untuk manajemen daftar film favorit"
+    }
+  ],
+  "paths": {
+    "/sign-up": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "nabil@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456789"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sign-up Success!"
+          },
+          "400": {
+            "description": "Email not available!"
+          },
+          "500": {
+            "description": "Signup failed!"
+          }
+        }
+      }
+    },
+    "/my-token": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sign In User & Save Token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "nabil@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "password123"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "zzz123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sign-in Token Saved"
+          },
+          "400": {
+            "description": "User not found! / Password wrong!"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Auth"],
+        "summary": "Sign Out User (Clear Token)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "nabil@gmail.com"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "zzz123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sign-out Success"
+          },
+          "401": {
+            "description": "Error, Unauthorized"
+          }
+        }
+      }
+    },
+    "/my-movies/{email}/{token}": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get Favorite Movie User",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "nabil@gmail.com"
+            }
+          },
+          {
+            "in": "path",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "zzz123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success getting Favorite Movies"
+          },
+          "401": {
+            "description": "Failed To Get Favorite Movies, Unauthorized"
+          }
+        }
+      }
+    },
+    "/my-movies": {
+      "post": {
+        "tags": ["Movies"],
+        "summary": "Add a Favorite Movie",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "nabil@gmail.com"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "zzz123"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "Game of Thrones"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Winter is coming"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add Favorite Movies Success"
+          },
+          "401": {
+            "description": "Error, Unauthorized"
+          },
+          "500": {
+            "description": "Error Adding Favorite Movies"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Movies"],
+        "summary": "Remove a Favorite Movie",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "nabil@gmail.com"
+                  },
+                  "token": {
+                    "type": "string",
+                    "example": "zzz123"
+                  },
+                  "movieID": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Remove Favorite Movies Success"
+          },
+          "401": {
+            "description": "Error, Unauthorized"
+          },
+          "404": {
+            "description": "Movie ID Not Found!"
+          }
+        }
+      }
+    }
+  }
+}
