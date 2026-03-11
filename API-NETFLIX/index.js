@@ -22,11 +22,11 @@ app.use(
     swaggerUI.setup(swaggerDocs)
 ) //cara mengakses: http://localhost:3002/docs
 
-mongoose.connect(MONGO_URL).catch(err => {
-    if (err) {
-        console.log("tidak dapat terkoneksi ke mongodb!")
-    }
-})
+mongoose.connect(MONGO_URL)
+    .then(() => console.log("Berhasil terkoneksi ke MongoDB Atlas!"))
+    .catch(err => {
+        console.log("GAGAL KONEK MONGODB! Alasan detailnya:", err.message);
+    });
 
 app.use(routes)
 
