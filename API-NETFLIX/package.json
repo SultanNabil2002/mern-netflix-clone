@@ -1,0 +1,27 @@
+{
+  "name": "api-netflix",
+  "version": "1.0.0",
+  "description": "api untuk netflix clone express js",
+  "license": "ISC",
+  "author": "sultan nabil",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --forceExit",
+    "dev": "nodemon index.js",
+    "prod": ""
+  },
+  "dependencies": {
+    "argon2": "^0.44.0",
+    "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jest": "^30.2.0",
+    "mongoose": "^9.2.1",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
+  }
+}

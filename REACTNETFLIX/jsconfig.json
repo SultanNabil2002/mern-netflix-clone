@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@mods/*": ["./src/components/modules/*"],
+      "@layouts/*": ["./src/components/Layouts/*"]
+    }
+  }
+}
