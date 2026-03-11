@@ -16,11 +16,19 @@ const PORT = API_PORT
 app.use(express.json())
 app.use(cors())
 
+const swaggerOptions = {
+    customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css",
+    customJs: [
+        "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-bundle.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-standalone-preset.js"
+    ]
+};
+
 app.use(
     "/docs",
     swaggerUI.serve,
-    swaggerUI.setup(swaggerDocs)
-) //cara mengakses: http://localhost:3002/docs
+    swaggerUI.setup(swaggerDocs, swaggerOptions)
+);
 
 mongoose.connect(MONGO_URL)
     .then(() => console.log("Berhasil terkoneksi ke MongoDB Atlas!"))
